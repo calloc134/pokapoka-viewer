@@ -2,7 +2,6 @@ package blog
 
 import (
 	"errors"
-	"fmt"
 	"pokapoka-viewer/pkg/utils"
 	"regexp"
 	"strings"
@@ -94,7 +93,6 @@ func getPokaBlog(url string) (*Blog, error) {
 	var comments []string
 	doc.Find("div.comments-area li.comment-set").Each(func(i int, s *goquery.Selection) {
 		text := s.Find("p").Eq(1).Text()
-		fmt.Println(text)
 		comments = append(comments, text)
 	})
 
