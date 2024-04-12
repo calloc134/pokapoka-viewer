@@ -21,10 +21,10 @@ jobs:
 
       - name: Set filename for Windows
         if: matrix.os == 'windows'
-        run: echo filename=pokapokaviewer-${{ matrix.os }}-${{ matrix.arch }}.exe > $GITHUB_OUTPUT
+        run: echo filename=pokapokaviewer-${{ matrix.os }}-${{ matrix.arch }}.exe > $GITHUB_ENV
       - name: Set filename for non-Windows
         if: matrix.os != 'windows'
-        run: echo filename=pokapokaviewer-${{ matrix.os }}-${{ matrix.arch }} > $GITHUB_OUTPUT
+        run: echo filename=pokapokaviewer-${{ matrix.os }}-${{ matrix.arch }} > $GITHUB_ENV
 
       - name: Build
         run: GOOS=${{ matrix.os }} GOARCH=${{ matrix.arch }} go build -v -o ${{ env.filename }}
