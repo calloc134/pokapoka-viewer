@@ -10,7 +10,7 @@ jobs:
       matrix:
         go-version: [1.18.x]
         os: [linux, darwin, windows]
-        arch: [amd64]
+        arch: [amd64, 386, arm64]
     steps:
       - name: Set up Go
         uses: actions/setup-go@v3
@@ -23,5 +23,6 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: myapp-${{ matrix.os }}-${{ matrix.arch }}
-          path: myapp-${{ matrix.os }}-${{ matrix.arch }}
+          # Windowsの場合は拡張子をexeに変更
+          name: myapp-${{ matrix.os }}-${{ matrix.arch }}${{ matrix.os == 'windows' && '.exe' || '' }}
+          path: pokapokaviewer-${{ matrix.os }}-${{ matrix.arch }}
