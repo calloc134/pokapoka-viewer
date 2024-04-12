@@ -21,16 +21,16 @@ jobs:
 
       - name: Set filename for Windows
         if: matrix.os == 'windows'
-        run: echo ::set-output name=filename::pokapokaviewer-${{ matrix.os }}-${{ matrix.arch }}.exe
+        run: echo filename=pokapokaviewer-${{ matrix.os }}-${{ matrix.arch }}.exe > $GITHUB_OUTPUT
       - name: Set filename for non-Windows
         if: matrix.os != 'windows'
-        run: echo ::set-output name=filename::pokapokaviewer-${{ matrix.os }}-${{ matrix.arch }}
+        run: echo filename=pokapokaviewer-${{ matrix.os }}-${{ matrix.arch }} > $GITHUB_OUTPUT
 
       - name: Build
-        run: GOOS=${{ matrix.os }} GOARCH=${{ matrix.arch }} go build -v -o ${{ steps.set-filename.outputs.filename }}
+        run: GOOS=${{ matrix.os }} GOARCH=${{ matrix.arch }} go build -v -o ${{ env.filename }}
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ steps.set-filename.outputs.filename }}
-          path: ${{ steps.set-filename.outputs.filename }}
+          name: ${{ env.filename }}
+          path: ${{ env.filename }}
