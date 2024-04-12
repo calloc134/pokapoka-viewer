@@ -18,16 +18,19 @@ jobs:
           go-version: ${{ matrix.go-version }}
       - name: Check out code
         uses: actions/checkout@v3
-      - name: Build
-        run: GOOS=${{ matrix.os }} GOARCH=${{ matrix.arch }} go build -v -o myapp-${{ matrix.os }}-${{ matrix.arch }}
+
       - name: Set filename for Windows
         if: matrix.os == 'windows'
         run: echo ::set-output name=filename::pokapokaviewer-${{ matrix.os }}-${{ matrix.arch }}.exe
       - name: Set filename for non-Windows
         if: matrix.os != 'windows'
         run: echo ::set-output name=filename::pokapokaviewer-${{ matrix.os }}-${{ matrix.arch }}
+
+      - name: Build
+        run: GOOS=${{ matrix.os }} GOARCH=${{ matrix.arch }} go build -v -o ${{ steps.set-filename.outputs.filename }}
+
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
           name: ${{ steps.set-filename.outputs.filename }}
-          path: pokapokaviewer-${{ matrix.os }}-${{ matrix.arch }}
+          path: ${{ steps.set-filename.outputs.filename }}
